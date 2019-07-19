@@ -1,0 +1,19 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: cloudE-config-server
+  cloud:
+      config:
+        native:
+          #searchLocations: classpath:/cloudE-config-repo
+  profiles:
+     active: native
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/

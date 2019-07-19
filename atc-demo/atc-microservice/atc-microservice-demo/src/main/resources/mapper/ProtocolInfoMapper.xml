@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.icss.autotest.framework.atc.microservice.demo.dao.ProtocolInfoMapper">
+    <resultMap id="BaseResultMap" type="com.icss.autotest.framework.atc.microservice.demo.entity.ProtocolInfo">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <id column="tb_app_info_id" jdbcType="VARCHAR" property="tbAppInfoId"/>
+        <result column="protocol_type" jdbcType="VARCHAR" property="protocolType"/>
+        <result column="ip" jdbcType="VARCHAR" property="ip"/>
+        <result column="port" jdbcType="VARCHAR" property="port"/>
+        <result column="encryption_type" jdbcType="VARCHAR" property="encryptionType"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, tb_app_info_id, protocol_type, ip, port, encryption_type
+  </sql>
+    <select id="selectByPrimaryKey"
+            parameterType="com.icss.autotest.framework.atc.microservice.demo.entity.ProtocolInfoKey"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_protocol_info
+        where id = #{id,jdbcType=VARCHAR}
+        and tb_app_info_id = #{tbAppInfoId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey"
+            parameterType="com.icss.autotest.framework.atc.microservice.demo.entity.ProtocolInfoKey">
+    delete from tb_protocol_info
+    where id = #{id,jdbcType=VARCHAR}
+      and tb_app_info_id = #{tbAppInfoId,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.icss.autotest.framework.atc.microservice.demo.entity.ProtocolInfo">
+    insert into tb_protocol_info (id, tb_app_info_id, protocol_type,  ip, port, encryption_type )
+    values (#{id,jdbcType=VARCHAR}, #{tbAppInfoId,jdbcType=VARCHAR}, #{protocolType,jdbcType=VARCHAR}, 
+      #{ip,jdbcType=VARCHAR}, #{port,jdbcType=VARCHAR}, #{encryptionType,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.icss.autotest.framework.atc.microservice.demo.entity.ProtocolInfo">
+        insert into tb_protocol_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="tbAppInfoId != null">
+                tb_app_info_id,
+            </if>
+            <if test="protocolType != null">
+                protocol_type,
+            </if>
+            <if test="ip != null">
+                ip,
+            </if>
+            <if test="port != null">
+                port,
+            </if>
+            <if test="encryptionType != null">
+                encryption_type,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="tbAppInfoId != null">
+                #{tbAppInfoId,jdbcType=VARCHAR},
+            </if>
+            <if test="protocolType != null">
+                #{protocolType,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="port != null">
+                #{port,jdbcType=VARCHAR},
+            </if>
+            <if test="encryptionType != null">
+                #{encryptionType,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.icss.autotest.framework.atc.microservice.demo.entity.ProtocolInfo">
+        update tb_protocol_info
+        <set>
+            <if test="protocolType != null">
+                protocol_type = #{protocolType,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                ip = #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="port != null">
+                port = #{port,jdbcType=VARCHAR},
+            </if>
+            <if test="encryptionType != null">
+                encryption_type = #{encryptionType,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+        and tb_app_info_id = #{tbAppInfoId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.icss.autotest.framework.atc.microservice.demo.entity.ProtocolInfo">
+    update tb_protocol_info
+    set protocol_type = #{protocolType,jdbcType=VARCHAR},
+      ip = #{ip,jdbcType=VARCHAR},
+      port = #{port,jdbcType=VARCHAR},
+      encryption_type = #{encryptionType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+      and tb_app_info_id = #{tbAppInfoId,jdbcType=VARCHAR}
+  </update>
+
+
+    <select id="getProtocolTypeList" resultType="map">
+        SELECT * FROM tb_protocol_type
+    </select>
+
+    <select id="getProtocolList" resultMap="BaseResultMap">
+        SELECT * FROM tb_protocol_info
+        <where>
+            <if test="applicationId != null">
+                tb_app_info_id = #{applicationId}
+            </if>
+            <if test="protocolType != null">
+                AND protocol_type = #{protocolType}
+            </if>
+        </where>
+    </select>
+</mapper>
